@@ -1,0 +1,49 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Movie Collection</title>
+    <link href="https://fonts.googleapis.com/css2?family=Cinzel+Decorative:wght@700&family=Playfair+Display:wght@700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="{% static 'movies/styles.css' %}">
+</head>
+<body>
+    <!-- ===== HEADER ===== -->
+    <header class="site-header">
+        <div class="header-content">
+            <h1 class="site-title">Movie Collection</h1>
+            <img class="site-logo" src="{% static 'movies/logo.png' %}" alt="Cinema Logo">
+        </div>
+    </header>
+
+    <!-- ===== MAIN CONTENT ===== -->
+    <main class="page-content">
+        <section class="movie-list-section">
+            <h2>Películas</h2>
+
+            {% if movies %}
+                <div class="movie-grid">
+                    {% for movie in movies %}
+                        <article class="movie-card">
+                            <a href="{% url 'movie_detail' pk=movie.pk %}" class="movie-card-link">
+                                {% if movie.image %}
+                                    <img class="movie-card-image" src="{{ movie.image.url }}" alt="{{ movie.title }}">
+                                {% else %}
+                                    <div class="movie-card-image movie-card-image--placeholder">No Image</div>
+                                {% endif %}
+                                <div class="movie-card-body">
+                                    <h3 class="movie-card-title">{{ movie.title }}</h3>
+                                    <span class="movie-card-year">{{ movie.publication_year }}</span>
+                                </div>
+                            </a>
+                        </article>
+                    {% endfor %}
+                </div>
+            {% else %}
+                <p class="empty-message">No hay películas registradas en la base de datos.</p>
+            {% endif %}
+        </section>
+    </main>
+</body>
+</html>

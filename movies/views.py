@@ -1,3 +1,13 @@
-from django.shortcuts import render
+from django.shortcuts import get_object_or_404, render
 
-# Create your views here.
+from .models import Movie
+
+
+def index(request):
+    movies = Movie.objects.order_by('title')
+    return render(request, 'movies/index.html', {'movies': movies})
+
+
+def detail(request, pk):
+    movie = get_object_or_404(Movie, pk=pk)
+    return render(request, 'movies/detail.html', {'movie': movie})
